@@ -2,8 +2,16 @@ export const site = {
   name: 'Atmósfera',
   fullName: 'Atmósfera Soluciones Tecnológicas',
   tagline: 'Tu sistema, a tu medida.',
+  legal: {
+    owner: 'Joel Joas Maldonado Fernández',
+    ruc: '10744555189',
+    address: 'Prol. Luis Massaro 118, Chincha Alta, Chincha, Ica, Perú',
+    statement: 'Atmósfera es una marca de Joel Joas Maldonado Fernández, RUC 10744555189.',
+    updated: '7 de noviembre de 2026',
+  },
+  url: 'https://atmosferast.com',
   contact: {
-    email: 'atmosfera-soltec@gmail.com',
+    email: 'atmosfera.soltec@gmail.com',
     phone: '+51 908 069 776',
     whatsapp: 'https://wa.me/51908069776',
     instagram: '@atmosfera.soltec',
@@ -12,11 +20,11 @@ export const site = {
     tiktokUrl: 'https://tiktok.com/@atmosfera.soltec',
   },
   nav: [
-    { label: 'Productos', href: '#productos' },
-    { label: 'Servicios', href: '#servicios' },
-    { label: 'A medida', href: '#proyectos' },
-    { label: 'Nosotros', href: '#nosotros' },
-    { label: 'Contacto', href: '#contacto' },
+    { label: 'Productos', href: '/#productos' },
+    { label: 'Servicios', href: '/#servicios' },
+    { label: 'A medida', href: '/#proyectos' },
+    { label: 'Nosotros', href: '/#nosotros' },
+    { label: 'Contacto', href: '/contact' },
   ],
 } as const
 

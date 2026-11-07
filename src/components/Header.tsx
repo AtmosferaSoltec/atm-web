@@ -19,7 +19,7 @@ export default function Header() {
       }`}
     >
       <div className="mx-auto flex h-16 max-w-page items-center justify-between px-5 sm:h-[72px] sm:px-8">
-        <a href="#inicio" aria-label="Atmósfera, inicio">
+        <a href="/" aria-label="Atmósfera, inicio">
           <img src="/logo-full.svg" alt="Atmósfera" className="h-7 w-auto sm:h-8" />
         </a>
 
@@ -31,7 +31,7 @@ export default function Header() {
           ))}
         </nav>
 
-        <a href="#contacto" className="btn-primary hidden rounded-full px-5 py-2.5 text-sm md:inline-block">
+        <a href="/contact" className="btn-primary hidden rounded-full px-5 py-2.5 text-sm md:inline-block">
           Hablemos
         </a>
 
@@ -57,7 +57,7 @@ export default function Header() {
               {item.label}
             </a>
           ))}
-          <a href="#contacto" onClick={() => setOpen(false)} className="btn-primary mt-3 rounded-full px-5 py-3 text-center">
+          <a href="/contact" onClick={() => setOpen(false)} className="btn-primary mt-3 rounded-full px-5 py-3 text-center">
             Hablemos
           </a>
         </nav>

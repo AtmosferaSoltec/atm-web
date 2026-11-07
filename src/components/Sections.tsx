@@ -163,14 +163,39 @@ export function Contact() {
 }
 
 export function Footer() {
+  const { legal, contact } = site
+  const links = [
+    { label: 'Política de privacidad', href: '/privacy' },
+    { label: 'Términos y condiciones', href: '/terms' },
+    { label: 'Eliminación de datos', href: '/data-deletion' },
+    { label: 'Contacto', href: '/contact' },
+  ]
   return (
     <footer className="border-t border-line">
-      <div className="mx-auto flex max-w-page flex-col items-center justify-between gap-5 px-5 py-10 sm:flex-row sm:px-8">
-        <img src="/logo-full.svg" alt="Atmósfera" className="h-6 w-auto opacity-80" />
-        <p className="text-center text-sm text-white/40">
-          © {new Date().getFullYear()} {site.fullName}. Todos los derechos reservados.
+      <div className="mx-auto max-w-page px-5 py-12 sm:px-8">
+        <div className="flex flex-col gap-8 md:flex-row md:justify-between">
+          <div className="max-w-md">
+            <a href="/" aria-label="Atmósfera, inicio">
+              <img src="/logo-full.svg" alt="Atmósfera" className="h-6 w-auto opacity-80" />
+            </a>
+            <p className="mt-5 text-sm leading-relaxed text-white/70">{legal.statement}</p>
+            <address className="mt-3 text-sm leading-relaxed text-white/45 not-italic">
+              {legal.address}
+              <br />
+              Teléfono / WhatsApp: <a className="hover:text-white" href={`tel:${contact.phone.replace(/\s/g, '')}`}>{contact.phone}</a>
+              <br />
+              Correo: <a className="hover:text-white" href={`mailto:${contact.email}`}>{contact.email}</a>
+            </address>
+          </div>
+          <nav aria-label="Legal" className="flex flex-col gap-2.5 text-sm">
+            {links.map((l) => (
+              <a key={l.href} href={l.href} className="text-white/55 hover:text-white">{l.label}</a>
+            ))}
+          </nav>
+        </div>
+        <p className="mt-10 border-t border-line pt-6 text-sm text-white/40">
+          © {new Date().getFullYear()} Atmósfera. Todos los derechos reservados.
         </p>
-        <a href="#inicio" className="text-sm text-white/50 hover:text-white">Volver arriba ↑</a>
       </div>
     </footer>
   )
