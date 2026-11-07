@@ -12,6 +12,40 @@ const origin = 'https://atmosferast.com'
 const { render, routes } = await import(pathToFileURL(path.join(serverDir, 'entry-server.js')).href)
 const template = await readFile(path.join(dist, 'index.html'), 'utf8')
 
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    '@id': `${origin}/#organization`,
+    name: 'Atmósfera Soluciones Tecnológicas',
+    alternateName: 'Atmósfera',
+    url: origin,
+    logo: `${origin}/logo-mark-square.svg`,
+    image: `${origin}/logo-mark-square.svg`,
+    description: 'Desarrollo de software a medida, apps móviles, sistemas web y facturación electrónica SUNAT.',
+    telephone: '+51908069776',
+    email: 'atmosfera.soltec@gmail.com',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Prol. Luis Massaro 118',
+      addressLocality: 'Chincha Alta',
+      addressRegion: 'Ica',
+      addressCountry: 'PE',
+    },
+    areaServed: ['Perú', 'Latinoamérica'],
+    knowsAbout: ['Software a medida', 'Aplicaciones móviles', 'Sistemas web', 'Facturación electrónica SUNAT'],
+    sameAs: ['https://instagram.com/atmosfera.soltec', 'https://tiktok.com/@atmosfera.soltec'],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Atmósfera',
+    url: origin,
+    inLanguage: 'es-PE',
+  },
+]
+const ldScript = `<script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, '\\u003c')}</script>`
+
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')
 
 for (const r of routes) {
@@ -19,7 +53,19 @@ for (const r of routes) {
   let html = template
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(r.title)}</title>`)
     .replace(/(<meta\s+name="description"\s+content=")[^"]*(")/, `$1${esc(r.description)}$2`)
-    .replace('</head>', `    <link rel="canonical" href="${canonical}" />\n  </head>`)
+    .replace(
+      '</head>',
+      `    <link rel="canonical" href="${canonical}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Atmósfera" />
+    <meta property="og:locale" content="es_PE" />
+    <meta property="og:url" content="${canonical}" />
+    <meta property="og:title" content="${esc(r.title)}" />
+    <meta property="og:description" content="${esc(r.description)}" />
+    <meta property="og:image" content="${origin}/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+${r.path === '/' ? `    ${ldScript}\n` : ''}  </head>`,
+    )
     .replace('<div id="root"></div>', `<div id="root">${render(r.path)}</div>`)
   if (!html.includes('id="root">') || html.includes('<div id="root"></div>')) throw new Error(`Prerender failed for ${r.path}`)
   const file = r.path === '/' ? 'index.html' : `${r.path.slice(1)}.html`
@@ -28,7 +74,7 @@ for (const r of routes) {
   console.log('prerendered', r.path, '->', file)
 }
 
-const urls = routes.map((r) => `  <url><loc>${origin}${r.path === '/' ? '/' : r.path}</loc></url>`).join('\n')
+const urls = routes.map((r) => `  <url><loc>${origin}${r.path === '/' ? '/' : r.path}</loc><lastmod>${new Date().toISOString().slice(0, 10)}</lastmod></url>`).join('\n')
 await writeFile(
   path.join(dist, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`,

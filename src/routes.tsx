@@ -15,8 +15,8 @@ export interface Route {
 export const routes: Route[] = [
   {
     path: '/',
-    title: 'Atmósfera · Tu sistema, a tu medida',
-    description: 'Atmósfera Soluciones Tecnológicas: software a medida y productos propios como Órbita, Nova e Iris.',
+    title: 'Desarrollo de software a medida en Perú | Atmósfera',
+    description: 'Desarrollamos software a medida, apps móviles y sistemas web con facturación electrónica SUNAT. Para todo el Perú y el extranjero. Cotiza gratis.',
     component: Home,
   },
   {

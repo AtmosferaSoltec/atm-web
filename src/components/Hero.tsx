@@ -57,7 +57,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.25 }}
           className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/60 sm:text-xl"
         >
-          Diseñamos y construimos apps móviles, sistemas web y productos propios para que tu negocio —o tu día a día— funcione mejor.
+          Desarrollo de software a medida para todo el Perú: apps móviles, sistemas web y facturación electrónica SUNAT para que tu negocio funcione mejor.
         </motion.p>
 
         <motion.div
