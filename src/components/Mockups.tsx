@@ -1,23 +1,29 @@
 import type { ProductId } from '../data/site'
 
-/** Ventana de app simplificada; el contenido cambia por producto. */
+/**
+ * Ventana de app simplificada; el contenido cambia por producto.
+ * Es una ilustración con datos de ejemplo, no una captura: la etiqueta inferior
+ * lo declara para que nadie la tome por la interfaz real.
+ */
 function Frame({ children, from, to }: { children: React.ReactNode; from: string; to: string }) {
   return (
-    <div className="relative">
-      <div
-        aria-hidden
-        className="absolute -inset-6 -z-10 rounded-[2rem] opacity-40 blur-3xl"
-        style={{ background: `linear-gradient(135deg, ${from}, ${to})` }}
-      />
-      <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#101113] shadow-2xl">
-        <div className="flex items-center gap-1.5 border-b border-white/[0.06] px-4 py-3">
-          <span className="size-2.5 rounded-full bg-white/15" />
-          <span className="size-2.5 rounded-full bg-white/15" />
-          <span className="size-2.5 rounded-full bg-white/15" />
+    <figure className="relative isolate">
+      <div className="layers">
+        <div className="overflow-hidden rounded-2xl border border-white/15 bg-[#101113]">
+          <div className="flex items-center gap-1.5 border-b border-white/[0.07] px-4 py-3">
+            <span className="size-2 rounded-full bg-white/20" />
+            <span className="size-2 rounded-full bg-white/20" />
+            <span className="size-2 rounded-full bg-white/20" />
+            <span className="ml-auto h-px w-16" style={{ background: `linear-gradient(90deg, ${from}, ${to})` }} />
+          </div>
+          <div className="p-5 sm:p-6">{children}</div>
         </div>
-        <div className="p-5 sm:p-6">{children}</div>
       </div>
-    </div>
+      <figcaption className="label mt-9 flex items-center gap-2 text-faint">
+        <span className="size-1.5 rounded-full" style={{ background: to }} aria-hidden />
+        Vista ilustrativa · datos de ejemplo
+      </figcaption>
+    </figure>
   )
 }
 

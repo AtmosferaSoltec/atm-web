@@ -2,6 +2,8 @@ export const site = {
   name: 'Atmósfera',
   fullName: 'Atmósfera Soluciones Tecnológicas',
   tagline: 'Tu sistema, a tu medida.',
+  /** Cota bajo el titular del hero: la misma cifra que en `stats`. */
+  measure: '100% a medida',
   legal: {
     owner: 'Joel Joas Maldonado Fernández',
     ruc: '10744555189',
@@ -158,13 +160,31 @@ export const projects: Project[] = [
   },
 ]
 
+export interface StackLayer {
+  level: string
+  name: string
+  role: string
+  tech: string[]
+}
+
+/**
+ * Capas del stack, de la más visible a la más profunda. Son las mismas
+ * tecnologías que ya declaraba el sitio; la agrupación por capa es editorial.
+ */
+export const stack: StackLayer[] = [
+  { level: 'L4', name: 'Interfaz', role: 'Lo que tu equipo y tus clientes ven y tocan.', tech: ['React', 'Next.js', 'SvelteKit', 'Flutter', 'Tailwind'] },
+  { level: 'L3', name: 'Lógica e integraciones', role: 'Las reglas de tu negocio y sus conexiones.', tech: ['TypeScript', 'NestJS', 'Go', 'SUNAT'] },
+  { level: 'L2', name: 'Datos', role: 'Donde vive la información.', tech: ['PostgreSQL', 'Prisma'] },
+  { level: 'L1', name: 'Infraestructura', role: 'Lo que mantiene todo en marcha.', tech: ['Docker', 'CI/CD'] },
+]
+
 export const services = [
-  { title: 'Apps móviles', text: 'Android e iOS con una experiencia nativa y fluida.', icon: 'phone' },
-  { title: 'Sistemas web', text: 'Paneles, plataformas y portales rápidos y seguros.', icon: 'globe' },
-  { title: 'Backend y APIs', text: 'Servicios robustos, documentados e integrables.', icon: 'server' },
-  { title: 'Facturación electrónica', text: 'Integración con SUNAT: comprobantes y guías de remisión.', icon: 'receipt' },
-  { title: 'Diseño UI/UX', text: 'Interfaces claras que tu equipo quiere usar.', icon: 'pen' },
-  { title: 'Soporte continuo', text: 'Mantenimiento y evolución con respuesta directa.', icon: 'life' },
+  { title: 'Apps móviles', text: 'Android e iOS con una experiencia nativa y fluida.' },
+  { title: 'Sistemas web', text: 'Paneles, plataformas y portales rápidos y seguros.' },
+  { title: 'Backend y APIs', text: 'Servicios robustos, documentados e integrables.' },
+  { title: 'Facturación electrónica', text: 'Integración con SUNAT: comprobantes y guías de remisión.' },
+  { title: 'Diseño UI/UX', text: 'Interfaces claras que tu equipo quiere usar.' },
+  { title: 'Soporte continuo', text: 'Mantenimiento y evolución con respuesta directa.' },
 ] as const
 
 export const reasons = [

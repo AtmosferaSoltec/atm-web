@@ -1,113 +1,580 @@
 @import "tailwindcss";
-@import "@fontsource-variable/inter";
+@import "@fontsource-variable/inter/wght.css";
+@import "@fontsource-variable/geist-mono";
 
-/* Atmósfera — tokens de marca */
+/* ─────────────────────────────────────────────────────────────
+   Atmósfera — sistema «Capas / Horizonte»
+   Tokens → base → piezas reutilizables → piezas de sección.
+   ───────────────────────────────────────────────────────────── */
+
 @theme {
-  --color-brand-dark: #141517;
-  --color-brand-cyan: #00cbc7;
-  --color-brand-green: #c6f103;
-  --color-brand-gray: #8a8a8a;
-  --color-card: #1b1d20;
-  --color-card-hover: #212429;
-  --color-line: rgb(255 255 255 / 0.08);
+  /* Superficies */
+  --color-ink: #141517;
+  --color-ink-deep: #0d0e10;
+  --color-ink-raised: #1a1c1f;
 
-  --font-sans: "Inter Variable", "Inter", system-ui, sans-serif;
+  /* Marca: el degradado del isotipo es la identidad; la lima es la señal. */
+  --color-teal: #15cfb3;
+  --color-green: #7de34c;
+  --color-lime: #c6f103;
 
-  --container-page: 1200px;
+  /* Texto y líneas */
+  --color-mute: rgb(255 255 255 / 0.64);
+  --color-faint: rgb(255 255 255 / 0.5);
+  --color-line: rgb(255 255 255 / 0.09);
+  --color-line-strong: rgb(255 255 255 / 0.2);
 
-  --animate-float: float 7s ease-in-out infinite;
-  --animate-float-slow: float 10s ease-in-out infinite reverse;
-  --animate-marquee: marquee 38s linear infinite;
-  --animate-pulse-ring: pulse-ring 2.4s ease-out infinite;
+  --font-sans: "Inter Variable", "Inter", "Inter Fallback", system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-14px); }
-  }
-  @keyframes marquee {
-    to { transform: translateX(-50%); }
-  }
-  @keyframes pulse-ring {
-    0% { transform: scale(0.8); opacity: 0.7; }
-    100% { transform: scale(2.2); opacity: 0; }
-  }
+  --container-page: 1320px;
+
+  /* Curvas: tipografía (larga), interfaz (corta). El scroll va lineal. */
+  --ease-type: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-ui: cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+
+/* Fuente de reserva con las métricas de Inter: mientras llega la real, el
+   texto ocupa el mismo espacio y el cambio no mueve el layout (CLS). */
+@font-face {
+  font-family: "Inter Fallback";
+  src: local("Arial");
+  size-adjust: 107.12%;
+  ascent-override: 90.44%;
+  descent-override: 22.52%;
+  line-gap-override: 0%;
 }
 
 :root {
-  --gradient-brand: linear-gradient(90deg, #00cbc7 0%, #c6f103 100%);
+  --gradient-brand: linear-gradient(90deg, #15cfb3 0%, #7de34c 100%);
+  --gutter: 1.25rem;
+  --header-h: 4rem;
+}
+@media (min-width: 640px) {
+  :root { --gutter: 2rem; --header-h: 4.5rem; }
+}
+@media (min-width: 1280px) {
+  :root { --gutter: 3rem; }
 }
 
 @layer base {
   html {
     color-scheme: dark;
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: var(--header-h);
     overflow-x: clip;
+    background: var(--color-ink);
   }
   body {
-    background: var(--color-brand-dark);
+    background: var(--color-ink);
     color: #fff;
     font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss03";
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
-  h1, h2, h3, h4 { letter-spacing: -0.025em; }
-  ::selection { background: rgb(0 203 199 / 0.3); }
+  h1, h2, h3, h4 { letter-spacing: -0.03em; text-wrap: balance; }
+  p { text-wrap: pretty; }
+  ::selection { background: rgb(21 207 179 / 0.32); }
   :focus-visible {
-    outline: 2px solid var(--color-brand-cyan);
-    outline-offset: 3px;
-    border-radius: 6px;
+    outline: 2px solid var(--color-lime);
+    outline-offset: 4px;
+    border-radius: 4px;
   }
 }
 
 @layer components {
-  .text-gradient-brand {
-    background-image: var(--gradient-brand);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
+  /* ── Contenedor ───────────────────────────────────────────── */
+  .wrap {
+    width: 100%;
+    max-width: calc(var(--container-page) + var(--gutter) * 2);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
   }
-  .bg-grid {
+
+  /* ── Etiqueta técnica (mono) ──────────────────────────────── */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    line-height: 1.4;
+    font-weight: 500;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+  }
+  .label-dot::before {
+    content: "";
+    display: inline-block;
+    width: 0.375rem;
+    height: 0.375rem;
+    margin-right: 0.6rem;
+    border-radius: 99px;
+    background: var(--color-lime);
+    vertical-align: 0.08em;
+  }
+
+  /* ── Filete: la línea que abre cada sección ───────────────── */
+  .rule {
+    display: block;
+    height: 1px;
+    width: 100%;
+    background: var(--color-line-strong);
+    transform-origin: left center;
+  }
+  .rule-soft { background: var(--color-line); }
+
+  /* ── Títulos ──────────────────────────────────────────────── */
+  .title-xl {
+    font-size: clamp(2.25rem, 5.4vw, 5rem);
+    line-height: 1.02;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+  }
+  .title-lg {
+    font-size: clamp(1.75rem, 3.4vw, 3rem);
+    line-height: 1.08;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+  }
+  .lede {
+    font-size: clamp(1rem, 1.25vw, 1.1875rem);
+    line-height: 1.6;
+    color: var(--color-mute);
+  }
+  /* SplitText enmascara por línea: se deja aire para descendentes. */
+  .split-line-mask { padding-bottom: 0.14em; margin-bottom: -0.14em; }
+
+  /* ── Botones: el relleno sube desde abajo ─────────────────── */
+  .btn {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    height: 3.25rem;
+    padding-inline: 1.6rem;
+    border-radius: 999px;
+    overflow: hidden;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    transition: color 0.35s var(--ease-ui), border-color 0.35s var(--ease-ui);
+  }
+  .btn-sm { height: 2.5rem; padding-inline: 1.15rem; font-size: 0.875rem; }
+  .btn-fill {
     position: absolute;
     inset: 0;
-    pointer-events: none;
-    background-image:
-      linear-gradient(to right, rgb(255 255 255 / 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(255 255 255 / 0.04) 1px, transparent 1px);
-    background-size: 64px 64px;
-    mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, black, transparent 80%);
+    z-index: -1;
+    border-radius: inherit;
+    transform: translateY(102%);
+    transition: transform 0.55s var(--ease-type);
   }
-  .glass {
-    background: rgb(255 255 255 / 0.03);
-    border: 1px solid var(--color-line);
-    backdrop-filter: blur(14px);
+  .btn-arrow { width: 1rem; height: 1rem; transition: transform 0.45s var(--ease-type); }
+  .btn-light { background: #fff; color: #0c0d0e; }
+  .btn-light .btn-fill { background: var(--gradient-brand); }
+  .btn-brand { background: var(--gradient-brand); color: #0c0d0e; }
+  .btn-brand .btn-fill { background: #fff; }
+  .btn-ghost { color: #fff; box-shadow: inset 0 0 0 1px var(--color-line-strong); }
+  .btn-ghost .btn-fill { background: #fff; }
+  @media (hover: hover) {
+    .btn:hover .btn-fill { transform: none; }
+    .btn:hover .btn-arrow { transform: translateX(4px); }
+    .btn-ghost:hover { color: #0c0d0e; }
   }
-  .btn-primary {
-    background: var(--gradient-brand);
-    color: #0c0d0e;
+  .btn:active { transform: scale(0.98); }
+
+  /* ── Enlace con subrayado que se dibuja ───────────────────── */
+  .link {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    padding-bottom: 2px;
+    transition: background-size 0.45s var(--ease-type), color 0.3s var(--ease-ui);
+  }
+  .link:hover, .link:focus-visible, .link[aria-current="true"] { background-size: 100% 1px; }
+
+  /* ── Header ───────────────────────────────────────────────── */
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 50;
+    height: var(--header-h);
+    view-transition-name: site-header;
+    transition: transform 0.5s var(--ease-type), background-color 0.4s var(--ease-ui), border-color 0.4s var(--ease-ui);
+    border-bottom: 1px solid transparent;
+  }
+  .site-header[data-solid="true"] {
+    background: rgb(20 21 23 / 0.82);
+    backdrop-filter: blur(16px) saturate(1.3);
+    border-bottom-color: var(--color-line);
+  }
+  .site-header[data-hidden="true"] { transform: translateY(-100%); }
+  /* Si el foco entra por teclado, el header vuelve aunque estuviera retirado. */
+  .site-header:focus-within { transform: none; }
+
+  /* Menú móvil a pantalla completa */
+  .menu {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    padding: calc(var(--header-h) + 1.5rem) var(--gutter) 2rem;
+    background: var(--color-ink);
+    display: flex;
+    flex-direction: column;
+    visibility: hidden;
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 0.7s var(--ease-type), visibility 0s 0.7s;
+  }
+  .menu[data-open="true"] {
+    visibility: visible;
+    clip-path: inset(0);
+    transition: clip-path 0.7s var(--ease-type), visibility 0s;
+  }
+  .menu-item {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding-block: 0.9rem;
+    border-bottom: 1px solid var(--color-line);
+    font-size: clamp(1.9rem, 9vw, 2.75rem);
     font-weight: 600;
-    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: -0.035em;
+    opacity: 0;
+    transform: translateY(1.25rem);
+    transition: opacity 0.3s var(--ease-ui), transform 0.3s var(--ease-ui);
   }
-  .btn-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 10px 40px -8px rgb(0 203 199 / 0.55);
+  .menu[data-open="true"] .menu-item {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.7s var(--ease-type) calc(var(--i) * 55ms + 180ms),
+      transform 0.9s var(--ease-type) calc(var(--i) * 55ms + 180ms);
   }
-  .btn-ghost {
-    border: 1px solid rgb(255 255 255 / 0.14);
-    transition: background 0.2s, border-color 0.2s;
+
+  /* ── Riel de capas (navegación lateral, solo escritorio) ──── */
+  .rail {
+    position: fixed;
+    right: 1.25rem;
+    top: 50%;
+    z-index: 30;
+    transform: translateY(-50%);
+    display: none;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.15rem;
   }
-  .btn-ghost:hover {
-    background: rgb(255 255 255 / 0.06);
-    border-color: rgb(255 255 255 / 0.28);
+  @media (min-width: 1536px) { .rail { display: flex; } }
+  .rail a {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding-block: 0.35rem;
+    color: var(--color-faint);
   }
+  .rail a span:first-child {
+    opacity: 0;
+    transform: translateX(6px);
+    transition: opacity 0.35s var(--ease-ui), transform 0.45s var(--ease-type);
+  }
+  .rail a i {
+    display: block;
+    height: 1px;
+    width: 0.875rem;
+    background: currentColor;
+    transition: width 0.45s var(--ease-type), background-color 0.3s;
+  }
+  .rail a:hover span:first-child, .rail a:focus-visible span:first-child, .rail a[aria-current="true"] span:first-child {
+    opacity: 1;
+    transform: none;
+  }
+  .rail a[aria-current="true"] { color: #fff; }
+  .rail a[aria-current="true"] i { width: 1.75rem; background: var(--color-lime); }
+
+  /* ── Horizonte ────────────────────────────────────────────── */
+  .horizon { position: absolute; inset: auto 0 0 0; pointer-events: none; --hz-len: calc(112vw + 8rem); }
+  .horizon svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .horizon path { vector-effect: non-scaling-stroke; fill: none; }
+  .horizon .hz-ground { fill: var(--color-ink-deep); stroke: none; }
+  .horizon .hz-stratum { stroke: rgb(255 255 255 / 0.13); stroke-width: 1; }
+  .horizon .hz-line { stroke-width: 1.5; }
+  .horizon .hz-glow { stroke-width: 9; opacity: 0.55; filter: blur(9px); }
+  .horizon .hz-tick { stroke: rgb(255 255 255 / 0.35); stroke-width: 1; }
+  .hz-base {
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 1px;
+    opacity: 0;
+    background: linear-gradient(90deg, transparent, #15cfb3 22%, #7de34c 48%, #c6f103 56%, #7de34c 64%, transparent);
+  }
+  .hz-label {
+    position: absolute;
+    right: var(--gutter);
+    transform: translateY(-140%);
+    color: var(--color-faint);
+  }
+
+  /* ── Hero ─────────────────────────────────────────────────── */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    /* El horizonte tiene alto propio y va anclado al fondo: no depende de cuánto
+       ocupe el texto, así que un cambio de fuente no lo desplaza. */
+    --hz-h: clamp(10rem, min(35svh, 56vw), 25rem);
+    min-height: max(100svh, 44rem);
+    padding-top: calc(var(--header-h) + clamp(1.75rem, 6.5svh, 5rem));
+    /* El texto puede adentrarse en la franja alta del horizonte: a la izquierda,
+       donde está el texto, el arco aún va bajo. */
+    padding-bottom: calc(var(--hz-h) * 0.84 + 1rem);
+    overflow: clip;
+  }
+  .hero-title {
+    font-size: clamp(2.6rem, min(7.1vw, 13.5svh), 6.75rem);
+    line-height: 0.98;
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    text-wrap: initial;
+  }
+  /* Palabra enmascarada: sube desde su propia línea. */
+  .w { display: inline-block; overflow: clip; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+  .w > span { display: inline-block; }
+  .measure { position: relative; display: inline-block; white-space: nowrap; }
+  /* Cota bajo «a tu medida»: una medida de plano técnico. */
+  .cota {
+    position: absolute;
+    left: 0;
+    right: 0.34em;
+    top: calc(100% + 0.1em);
+    height: 0.6875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    border-inline: 1px solid var(--color-teal);
+    border-right-color: var(--color-green);
+    font-size: 0.6875rem;
+    letter-spacing: 0.09em;
+    transform-origin: left center;
+  }
+  .cota::before, .cota::after { content: ""; flex: 1; height: 1px; background: var(--color-teal); }
+  .cota::after { background: var(--color-green); }
+  .cota span { font-family: var(--font-mono); font-weight: 500; color: var(--color-mute); line-height: 1; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* La entrada del hero es CSS puro: corre en el primer pintado, sin esperar al bundle. */
+    .w > span {
+      transform: translateY(108%);
+      animation: rise 1.15s var(--ease-type) forwards;
+      animation-delay: calc(var(--i) * 65ms + 120ms);
+    }
+    .hero-in {
+      opacity: 0;
+      animation: settle 1s var(--ease-type) forwards;
+      animation-delay: var(--d, 0.8s);
+    }
+    .cota { clip-path: inset(0 100% 0 0); animation: unveil 1s var(--ease-type) 0.95s forwards; }
+    .horizon-intro .hz-stratum, .horizon-intro .hz-line, .horizon-intro .hz-glow {
+      /* Con trazo no escalable el guion se mide en píxeles de pantalla, así que
+         su largo se expresa en función del ancho del viewport, no del viewBox. */
+      stroke-dasharray: var(--hz-len);
+      stroke-dashoffset: var(--hz-len);
+      animation: draw 1.6s var(--ease-type) forwards;
+      animation-delay: calc(var(--i) * 110ms + 100ms);
+    }
+    .horizon-intro .hz-tick, .horizon-intro ~ .hz-labels .hz-label {
+      opacity: 0;
+      animation: fade 0.8s ease forwards;
+      animation-delay: calc(var(--i, 0) * 60ms + 1.3s);
+    }
+    .horizon-intro .hz-ground { opacity: 0; animation: fade 1.4s ease 0.2s forwards; }
+  }
+  @keyframes rise { to { transform: none; } }
+  @keyframes settle { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes unveil { to { clip-path: inset(0); } }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes fade { to { opacity: 1; } }
+
+  /* ── Diagrama de capas ────────────────────────────────────── */
+  .plane { transition: opacity 0.4s var(--ease-ui); }
+  .plane path { vector-effect: non-scaling-stroke; transition: stroke 0.4s var(--ease-ui), fill 0.4s var(--ease-ui); }
+  .plane .plane-face { fill: rgb(20 21 23 / 0.92); stroke: rgb(255 255 255 / 0.24); stroke-width: 1; }
+  .plane[data-active="true"] .plane-face { fill: rgb(21 207 179 / 0.12); stroke: var(--color-teal); }
+  .stack-row { transition: opacity 0.35s var(--ease-ui); }
+  .stack-row .stack-name { transition: transform 0.5s var(--ease-type); }
+  .stack-list[data-hot="true"] .stack-row:not([data-active="true"]) { opacity: 0.42; }
+  .stack-row[data-active="true"] .stack-name { transform: translateX(0.6rem); }
+  .stack-row .stack-mark { transform: scaleX(0); transform-origin: left; transition: transform 0.6s var(--ease-type); }
+  .stack-row[data-active="true"] .stack-mark { transform: none; }
+
+  /* ── Showcase de productos ────────────────────────────────── */
+  .product { display: grid; gap: 2.5rem; padding-block: 3.5rem; border-top: 1px solid var(--color-line); }
+  .product-name {
+    font-size: clamp(3.5rem, 15vw, 7rem);
+    line-height: 0.9;
+    font-weight: 800;
+    letter-spacing: -0.055em;
+  }
+  .product-name .ch { display: inline-block; }
+  .product-name .ch-mask { display: inline-block; overflow: clip; padding-block: 0.24em 0.18em; margin-block: -0.24em -0.18em; vertical-align: top; }
+  .showcase-nav { display: none; }
+
+  /* Las capas detrás del mockup: el motivo «capas» en miniatura. */
+  .layers { position: relative; }
+  .layers::before, .layers::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 1rem;
+    border: 1px solid var(--color-line-strong);
+    transform: translate(0.875rem, 0.875rem);
+    z-index: -1;
+    transition: transform 0.9s var(--ease-type);
+  }
+  .layers::after { transform: translate(1.75rem, 1.75rem); border-color: var(--color-line); }
+
+  @media (min-width: 1024px) {
+    .product { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 4rem; padding-block: 5rem; }
+  }
+
+  /* Modo fijado: solo con JS, escritorio, altura suficiente y sin reducción de movimiento. */
+  @media (min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
+    .js .showcase { height: calc(var(--n) * 100vh); }
+    .js .showcase-stage { position: sticky; top: 0; height: 100vh; overflow: clip; }
+    .js .showcase-stage > .wrap { position: relative; height: 100%; }
+    .js .product {
+      position: absolute;
+      inset: var(--header-h) var(--gutter) 4.5rem;
+      padding-block: 0;
+      border-top: 0;
+      pointer-events: none;
+    }
+    .js .product[data-active="true"] { pointer-events: auto; }
+    .js .product-name { font-size: clamp(4.5rem, min(9.5vw, 17vh), 9.5rem); }
+
+    .js .product .ch { transform: translateY(150%); transition: transform 0.55s var(--ease-ui); }
+    .js .product[data-past="true"] .ch { transform: translateY(-150%); }
+    .js .product[data-active="true"] .ch {
+      transform: none;
+      transition: transform 1s var(--ease-type) calc(var(--i) * 32ms + 160ms);
+    }
+
+    .js .product .p-in { opacity: 0; transform: translateY(1.5rem); transition: opacity 0.3s var(--ease-ui), transform 0.3s var(--ease-ui); }
+    .js .product[data-past="true"] .p-in { transform: translateY(-1.5rem); }
+    .js .product[data-active="true"] .p-in {
+      opacity: 1;
+      transform: none;
+      transition: opacity 0.8s var(--ease-type) calc(var(--o) * 70ms + 260ms),
+        transform 1s var(--ease-type) calc(var(--o) * 70ms + 260ms);
+    }
+
+    .js .product-visual {
+      clip-path: inset(100% -3rem -3rem -3rem);
+      transform: translateY(3rem);
+      transition: clip-path 0.9s var(--ease-type), transform 0.9s var(--ease-type), opacity 0.6s var(--ease-ui);
+    }
+    .js .product[data-active="true"] .product-visual { clip-path: inset(-3rem); transform: none; }
+    .js .product[data-past="true"] .product-visual {
+      clip-path: inset(-3rem);
+      transform: scale(0.9) translateY(-2rem);
+      opacity: 0;
+    }
+    .js .product:not([data-active="true"]) .layers::before,
+    .js .product:not([data-active="true"]) .layers::after { transform: none; }
+    .js .product[data-active="true"] .layers::before { transition-delay: 0.35s; }
+    .js .product[data-active="true"] .layers::after { transition-delay: 0.45s; }
+
+    .js .showcase-nav {
+      position: absolute;
+      inset: auto var(--gutter) 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .showcase-nav button { position: relative; padding-top: 0.75rem; text-align: left; color: var(--color-faint); transition: color 0.3s; cursor: pointer; }
+    .showcase-nav button::before, .showcase-nav button::after {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 1px;
+      background: var(--color-line-strong);
+    }
+    .showcase-nav button::after { background: var(--c, #fff); transform: scaleX(0); transform-origin: left; transition: transform 0.8s var(--ease-type); }
+    .showcase-nav button[aria-current="true"] { color: #fff; }
+    .showcase-nav button[aria-current="true"]::after { transform: none; }
+    .showcase-nav button:hover { color: #fff; }
+  }
+
+  /* ── Filas editoriales (servicios, proyectos) ─────────────── */
+  .row { position: relative; transition: opacity 0.4s var(--ease-ui); }
+  .row .row-shift { transition: transform 0.6s var(--ease-type); }
+  .row .row-mark {
+    position: absolute;
+    inset: auto 0 -1px 0;
+    height: 1px;
+    background: var(--gradient-brand);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.7s var(--ease-type);
+  }
+  @media (hover: hover) {
+    .rows:hover .row:not(:hover) { opacity: 0.4; }
+    .row:hover .row-shift { transform: translateX(0.75rem); }
+    .row:hover .row-mark { transform: none; }
+  }
+  .ghost-num {
+    font-size: clamp(5rem, 11vw, 9.5rem);
+    line-height: 0.8;
+    font-weight: 800;
+    letter-spacing: -0.06em;
+    color: transparent;
+    -webkit-text-stroke: 1px rgb(255 255 255 / 0.16);
+    user-select: none;
+  }
+
+  /* ── Cotas de cifras ──────────────────────────────────────── */
+  .stat { position: relative; padding-top: 1.25rem; }
+  .stat::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 0.5rem;
+    border-inline: 1px solid var(--color-line-strong);
+    background: linear-gradient(var(--color-line-strong), var(--color-line-strong)) center / 100% 1px no-repeat;
+  }
+
+  /* ── Prosa legal ──────────────────────────────────────────── */
+  .prose-legal { font-size: 0.9688rem; line-height: 1.7; color: var(--color-mute); }
+  .prose-legal > * + * { margin-top: 0.75rem; }
+  .prose-legal a { color: var(--color-teal); text-decoration: underline; text-underline-offset: 3px; }
+  .prose-legal a:hover { color: #fff; }
+  .prose-legal li { margin-left: 1.25rem; list-style: disc; }
+  .prose-legal strong { color: rgb(255 255 255 / 0.92); font-weight: 600; }
+  @media (min-width: 640px) { .prose-legal { font-size: 1rem; } }
 }
+
+/* Antes de que el bundle tome el control, lo que va a animarse se reserva
+   oculto (solo si hay JS). Un temporizador en index.html lo libera si el
+   bundle no llega: el contenido nunca queda secuestrado. */
+.js:not(.ready) :is([data-split], [data-fade], [data-draw]) { visibility: hidden; }
+
+/* ── Transición entre páginas (navegación entre documentos) ─── */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: 0.28s var(--ease-ui) both vt-out; }
+::view-transition-new(root) { animation: 0.6s var(--ease-type) 0.08s both vt-in; }
+@keyframes vt-out { to { opacity: 0; transform: translateY(-10px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(14px); } }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
   }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }

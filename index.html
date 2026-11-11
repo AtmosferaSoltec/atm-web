@@ -9,9 +9,15 @@
       name="description"
       content="Desarrollamos software a medida, apps móviles y sistemas web con facturación electrónica SUNAT. Para todo el Perú y el extranjero."
     />
+    <script>
+      // Marca que hay JS (habilita los estados iniciales de animación) y, si el
+      // bundle no llega a tiempo, libera el contenido reservado.
+      document.documentElement.classList.add('js')
+      setTimeout(function () { document.documentElement.classList.add('ready') }, 3500)
+    </script>
     <title>Desarrollo de software a medida en Perú | Atmósfera</title>
   </head>
-  <body>
+  <body id="top">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

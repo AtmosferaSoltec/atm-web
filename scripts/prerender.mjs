@@ -46,6 +46,10 @@ const jsonLd = [
 ]
 const ldScript = `<script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, '\\u003c')}</script>`
 
+// Sin precargas de fuentes ni del chunk de animación: se midieron con Lighthouse
+// (móvil, red lenta simulada) y competían por ancho de banda con el CSS y el
+// bundle principal, retrasando FCP y LCP ~0,4 s.
+
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')
 
 for (const r of routes) {

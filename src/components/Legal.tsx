@@ -1,8 +1,8 @@
-import type { ReactNode } from 'react'
+import { useRef, type ReactNode } from 'react'
 import { site } from '../data/site'
-import Header from './Header'
-import { Footer } from './Sections'
-import { SectionHeader } from './ui'
+import { useReveal } from '../lib/motion'
+import Shell from './Shell'
+import { SectionHead } from './ui'
 
 export function PageShell({
   eyebrow,
@@ -15,24 +15,24 @@ export function PageShell({
   intro?: string
   children: ReactNode
 }) {
+  const ref = useRef<HTMLDivElement>(null)
+  useReveal(ref)
   return (
-    <>
-      <Header />
-      <main className="pt-32 pb-24 sm:pt-44 sm:pb-32">
-        <div className="mx-auto max-w-3xl px-5 sm:px-8">
-          <SectionHeader center={false} eyebrow={eyebrow} title={title} text={intro} />
-          <div className="mt-12">{children}</div>
+    <Shell>
+      <div ref={ref} className="wrap pt-32 pb-24 sm:pt-44 sm:pb-32">
+        <SectionHead as="h1" eyebrow={eyebrow} title={title} text={intro} />
+        <div className="mt-14 lg:mt-20 lg:grid lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-8 lg:col-start-5">{children}</div>
         </div>
-      </main>
-      <Footer />
-    </>
+      </div>
+    </Shell>
   )
 }
 
 export function Doc({ title, intro, children }: { title: string; intro?: string; children: ReactNode }) {
   return (
     <PageShell eyebrow="Legal" title={title} intro={intro}>
-      <p className="mb-10 text-sm text-white/45">Última actualización: {site.legal.updated}</p>
+      <p className="label mb-10">Última actualización: {site.legal.updated}</p>
       <div className="space-y-10">{children}</div>
     </PageShell>
   )
@@ -40,11 +40,12 @@ export function Doc({ title, intro, children }: { title: string; intro?: string;
 
 export function Sec({ n, title, children }: { n?: number; title: string; children: ReactNode }) {
   return (
-    <section>
-      <h2 className="text-xl font-semibold sm:text-2xl">{n ? `${n}. ` : ''}{title}</h2>
-      <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-white/65 sm:text-base [&_a]:text-brand-cyan [&_a]:underline [&_li]:ml-5 [&_li]:list-disc [&_strong]:text-white/90">
-        {children}
-      </div>
+    <section className="border-t border-line pt-6">
+      <h2 className="flex gap-4 text-xl font-semibold sm:text-2xl">
+        {n ? <span className="label pt-2 text-faint">{String(n).padStart(2, '0')}</span> : null}
+        <span>{title}</span>
+      </h2>
+      <div className={`prose-legal mt-3 ${n ? 'sm:pl-10' : ''}`}>{children}</div>
     </section>
   )
 }
@@ -52,7 +53,7 @@ export function Sec({ n, title, children }: { n?: number; title: string; childre
 export function Owner() {
   const { legal, contact, fullName, name } = site
   return (
-    <ul className="!ml-0 space-y-1 [&_li]:!ml-0 [&_li]:list-none">
+    <ul className="space-y-1 [&_li]:!ml-0 [&_li]:!list-none">
       <li><strong>Marca:</strong> {name} ({fullName})</li>
       <li><strong>Titular:</strong> {legal.owner}</li>
       <li><strong>RUC:</strong> {legal.ruc}</li>
