@@ -117,7 +117,13 @@ export default function Header() {
             <Button href={site.contact.whatsapp} variant="brand" external className="w-full">
               Escribir por WhatsApp
             </Button>
-            <p className="label text-faint">{site.contact.phone} · {site.contact.email}</p>
+            <p className="label flex flex-wrap gap-x-5 gap-y-2">
+              {site.socials.map((s) => (
+                <a key={s.name} href={s.url} target="_blank" rel="noreferrer" className="hover:text-white">
+                  {s.name} ↗
+                </a>
+              ))}
+            </p>
           </div>
         </div>
       </div>

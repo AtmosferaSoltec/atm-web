@@ -16,11 +16,13 @@ export const site = {
     email: 'atmosfera.soltec@gmail.com',
     phone: '+51 908 069 776',
     whatsapp: 'https://wa.me/51908069776',
-    instagram: '@atmosfera.soltec',
-    instagramUrl: 'https://instagram.com/atmosfera.soltec',
-    tiktok: '@atmosfera.soltec',
-    tiktokUrl: 'https://tiktok.com/@atmosfera.soltec',
   },
+  /** Redes oficiales. URLs limpias, sin parámetros de seguimiento. */
+  socials: [
+    { name: 'Instagram', handle: '@atmosfera.soltec', url: 'https://www.instagram.com/atmosfera.soltec' },
+    { name: 'TikTok', handle: '@atmosfera.soltec', url: 'https://www.tiktok.com/@atmosfera.soltec' },
+    { name: 'YouTube', handle: '@AtmosferaST', url: 'https://www.youtube.com/@AtmosferaST' },
+  ],
   nav: [
     { label: 'Productos', href: '/#productos' },
     { label: 'Servicios', href: '/#servicios' },

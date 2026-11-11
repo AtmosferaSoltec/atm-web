@@ -7,7 +7,7 @@ import { Button } from './ui'
 /** Cierre: el horizonte regresa completo y el titular ocupa la pantalla. */
 export default function Contact() {
   const ref = useRef<HTMLElement>(null)
-  const { email, phone, whatsapp, instagram, instagramUrl, tiktok, tiktokUrl } = site.contact
+  const { email, phone, whatsapp } = site.contact
   useReveal(ref)
 
   useMotion(ref, ({ gsap }) => {
@@ -81,12 +81,11 @@ export default function Contact() {
               <a className="link hover:text-white" href={`tel:${phone.replace(/\s/g, '')}`}>
                 {phone}
               </a>
-              <a className="link hover:text-white" href={instagramUrl} target="_blank" rel="noreferrer">
-                Instagram {instagram}
-              </a>
-              <a className="link hover:text-white" href={tiktokUrl} target="_blank" rel="noreferrer">
-                TikTok {tiktok}
-              </a>
+              {site.socials.map((s) => (
+                <a key={s.name} className="link hover:text-white" href={s.url} target="_blank" rel="noreferrer">
+                  {s.name} {s.handle}
+                </a>
+              ))}
             </p>
           </div>
         </div>

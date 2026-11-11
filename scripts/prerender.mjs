@@ -34,7 +34,7 @@ const jsonLd = [
     },
     areaServed: ['Perú', 'Latinoamérica'],
     knowsAbout: ['Software a medida', 'Aplicaciones móviles', 'Sistemas web', 'Facturación electrónica SUNAT'],
-    sameAs: ['https://instagram.com/atmosfera.soltec', 'https://tiktok.com/@atmosfera.soltec'],
+    sameAs: ['https://www.instagram.com/atmosfera.soltec', 'https://www.tiktok.com/@atmosfera.soltec', 'https://www.youtube.com/@AtmosferaST'],
   },
   {
     '@context': 'https://schema.org',

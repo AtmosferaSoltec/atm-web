@@ -8,12 +8,12 @@ const legalLinks = [
 ]
 
 export default function Footer() {
-  const { legal, contact, nav } = site
+  const { legal, contact, nav, socials } = site
   return (
     <footer className="bg-ink-deep">
       <div className="wrap pt-14 pb-10">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-6">
+        <div className="grid gap-12 sm:grid-cols-3 lg:grid-cols-12 lg:gap-8">
+          <div className="sm:col-span-3 lg:col-span-5">
             <a href="/" aria-label="Atmósfera, inicio" className="inline-block">
               <img src="/logo-full.svg" alt="Atmósfera" width="118" height="28" className="h-7 w-auto" loading="lazy" />
             </a>
@@ -33,13 +33,27 @@ export default function Footer() {
             </address>
           </div>
 
-          <nav aria-label="Secciones" className="lg:col-span-3">
+          <nav aria-label="Secciones" className="lg:col-span-2">
             <p className="label text-faint">Sitio</p>
             <ul className="mt-4 space-y-2.5 text-sm">
               {nav.map((l) => (
                 <li key={l.href}>
                   <a href={l.href} className="link text-white/80 hover:text-white">
                     {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <nav aria-label="Redes sociales" className="lg:col-span-2">
+            <p className="label text-faint">Redes</p>
+            <ul className="mt-4 space-y-2.5 text-sm">
+              {socials.map((s) => (
+                <li key={s.name}>
+                  <a href={s.url} target="_blank" rel="noreferrer" className="link text-white/80 hover:text-white" aria-label={`${s.name} ${s.handle}`}>
+                    {s.name}
+                    <span aria-hidden> ↗</span>
                   </a>
                 </li>
               ))}
