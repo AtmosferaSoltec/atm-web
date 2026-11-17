@@ -55,12 +55,47 @@ export default function Privacy() {
           Business.
         </p>
       </Sec>
-      <Sec n={8} title="Conservación">
+      <Sec n={8} title="Sistemas de gestión y aplicaciones móviles">
+        <p>
+          En sistemas como Pulso (gestión de gimnasios), cada negocio cliente es el titular de los datos de sus propios clientes y decide
+          para qué los usa. Atmósfera presta la plataforma y trata esos datos solo por encargo del negocio. Para el personal que usa los
+          sistemas, Atmósfera es responsable de los datos de su cuenta.
+        </p>
+        <ul>
+          <li>
+            <strong>Cuenta del personal:</strong> número de documento, nombre, rol y negocio o sede donde trabaja. La contraseña se guarda
+            cifrada, nunca en texto plano.
+          </li>
+          <li>
+            <strong>Clientes del negocio:</strong> nombre, tipo y número de documento, celular, membresías (plan, fechas y monto) y compras
+            realizadas en el negocio.
+          </li>
+          <li>
+            <strong>Datos de salud:</strong> el peso corporal solo se registra si el negocio activa esa función y con el consentimiento de
+            la persona. Es un dato sensible: solo lo ve el personal autorizado y cada consulta queda registrada.
+          </li>
+          <li>
+            <strong>Validación de identidad:</strong> al registrar a una persona con DNI, el sistema puede consultar su nombre en un servicio
+            de validación de identidad para evitar errores de escritura. No se guarda nada más de esa consulta.
+          </li>
+        </ul>
+        <p>
+          Las aplicaciones móviles las usa solo el personal autorizado de cada negocio, con una cuenta creada por su administrador. No
+          usan la ubicación, cámara, micrófono, contactos ni fotos del teléfono; no muestran publicidad ni usan herramientas de analítica o
+          seguimiento de terceros. La sesión se guarda en el almacenamiento seguro del teléfono y toda la comunicación va cifrada (HTTPS).
+        </p>
+        <p>
+          Si eres cliente de un negocio que usa estos sistemas, dirige primero tus solicitudes sobre tus datos a ese negocio. Si eres parte
+          del personal y quieres eliminar tu cuenta, escríbenos al correo indicado en «Contacto». Los datos de menores de edad los
+          registra el negocio con la autorización de sus padres o tutores.
+        </p>
+      </Sec>
+      <Sec n={9} title="Conservación">
         <p>
           Conservamos los datos mientras dure la relación de servicio o lo exija la ley; después los eliminamos o anonimizamos.
         </p>
       </Sec>
-      <Sec n={9} title="Derechos ARCO">
+      <Sec n={10} title="Derechos ARCO">
         <p>
           Puedes ejercer tus derechos de acceso, rectificación, cancelación y oposición escribiendo a{' '}
           <a href={`mailto:${email}`}>{email}</a>, indicando tu nombre, el medio por el que nos contactaste (número de teléfono o usuario) y
@@ -72,27 +107,30 @@ export default function Privacy() {
           Si consideras que no atendimos tu solicitud, puedes acudir a la Autoridad Nacional de Protección de Datos Personales del Perú.
         </p>
       </Sec>
-      <Sec n={10} title="Seguridad">
+      <Sec n={11} title="Seguridad">
         <p>
           Aplicamos medidas técnicas y organizativas razonables para proteger los datos contra acceso no autorizado, pérdida o alteración,
           como conexiones cifradas y control de acceso.
         </p>
       </Sec>
-      <Sec n={11} title="Cookies">
+      <Sec n={12} title="Cookies">
         <p>
           El sitio puede usar cookies y tecnologías similares para su funcionamiento y para medir su uso. Puedes bloquearlas o eliminarlas
           desde la configuración de tu navegador; algunas funciones podrían verse afectadas.
         </p>
       </Sec>
-      <Sec n={12} title="Menores de edad">
-        <p>El servicio no está dirigido a menores de 18 años y no recopilamos sus datos de forma intencional.</p>
+      <Sec n={13} title="Menores de edad">
+        <p>
+          El servicio no está dirigido a menores de 18 años y no recopilamos sus datos de forma intencional, salvo los que un negocio cliente
+          registre con autorización de sus padres o tutores, como se indica en la sección 8.
+        </p>
       </Sec>
-      <Sec n={13} title="Cambios a la política">
+      <Sec n={14} title="Cambios a la política">
         <p>
           Podemos actualizar esta política. Publicaremos la versión vigente en esta página con su fecha de «Última actualización».
         </p>
       </Sec>
-      <Sec n={14} title="Contacto">
+      <Sec n={15} title="Contacto">
         <p>
           Para cualquier consulta sobre privacidad escribe a <a href={`mailto:${email}`}>{email}</a> o llama al {site.contact.phone}.
         </p>

@@ -9,7 +9,7 @@ export const site = {
     ruc: '10744555189',
     address: 'Prol. Luis Massaro 118, Chincha Alta, Chincha, Ica, Perú',
     statement: 'Atmósfera es una marca de Joel Joas Maldonado Fernández, RUC 10744555189.',
-    updated: '7 de noviembre de 2026',
+    updated: '17 de noviembre de 2026',
   },
   url: 'https://atmosferast.com',
   contact: {
