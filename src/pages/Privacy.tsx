@@ -78,11 +78,17 @@ export default function Privacy() {
             <strong>Validación de identidad:</strong> al registrar a una persona con DNI, el sistema puede consultar su nombre en un servicio
             de validación de identidad para evitar errores de escritura. No se guarda nada más de esa consulta.
           </li>
+          <li>
+            <strong>Comprobantes de pago:</strong> de forma opcional, el personal puede adjuntar una foto o PDF del comprobante de un pago
+            hecho por Yape/Plin, tarjeta o transferencia. Se guarda en un almacenamiento privado, solo lo ve el personal autorizado del
+            negocio y no se puede modificar una vez subido.
+          </li>
         </ul>
         <p>
-          Las aplicaciones móviles las usa solo el personal autorizado de cada negocio, con una cuenta creada por su administrador. No
-          usan la ubicación, cámara, micrófono, contactos ni fotos del teléfono; no muestran publicidad ni usan herramientas de analítica o
-          seguimiento de terceros. La sesión se guarda en el almacenamiento seguro del teléfono y toda la comunicación va cifrada (HTTPS).
+          Las aplicaciones móviles las usa solo el personal autorizado de cada negocio, con una cuenta creada por su administrador. La
+          cámara y el selector de fotos del teléfono se usan únicamente cuando la persona decide adjuntar un comprobante de pago; la app
+          no accede a la galería por su cuenta ni guarda otras fotos. No usan la ubicación, el micrófono ni los contactos; no muestran
+          publicidad ni usan herramientas de analítica o seguimiento de terceros. La sesión se guarda en el almacenamiento seguro del teléfono y toda la comunicación va cifrada (HTTPS).
         </p>
         <p>
           Si eres cliente de un negocio que usa estos sistemas, dirige primero tus solicitudes sobre tus datos a ese negocio. Si eres parte
