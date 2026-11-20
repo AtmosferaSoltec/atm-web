@@ -13,7 +13,7 @@ export const site = {
   },
   url: 'https://atmosferast.com',
   contact: {
-    email: 'atmosfera.soltec@gmail.com',
+    email: 'contacto@atmosferast.com',
     phone: '+51 908 069 776',
     whatsapp: 'https://wa.me/51908069776',
   },

@@ -24,7 +24,7 @@ const jsonLd = [
     image: `${origin}/logo-mark-square.svg`,
     description: 'Desarrollo de software a medida, apps móviles, sistemas web y facturación electrónica SUNAT.',
     telephone: '+51908069776',
-    email: 'atmosfera.soltec@gmail.com',
+    email: 'contacto@atmosferast.com',
     address: {
       '@type': 'PostalAddress',
       streetAddress: 'Prol. Luis Massaro 118',
