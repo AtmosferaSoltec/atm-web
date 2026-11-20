@@ -40,7 +40,7 @@ export const routes: Route[] = [
   {
     path: '/data-deletion',
     title: 'Eliminación de datos · Atmósfera',
-    description: 'Instrucciones para solicitar la eliminación de tus datos personales tratados por Atmósfera a través de WhatsApp, Messenger e Instagram.',
+    description: 'Cómo solicitar la eliminación de tu cuenta y tus datos en las aplicaciones de Atmósfera (Pulso, Órbita, Nova y Olympus) y en WhatsApp, Messenger e Instagram.',
     component: DataDeletion,
   },
 ]
